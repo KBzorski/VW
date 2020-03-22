@@ -129,6 +129,7 @@ namespace VW
                     }
                 }
             }
+            imageBox1.Image.Dispose();
             imageBox1.Image= new Image<Bgr, Byte>(bitmap);
 
             if (rectangles != null && rectangles.Length != 0)
