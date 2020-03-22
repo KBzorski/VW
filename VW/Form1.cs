@@ -21,13 +21,25 @@ namespace VW
     {
         Timer timer = new Timer
         {
-            Interval = 50
+            Interval = 40
         };
-        
+
+        double x_position = 0;
+        double y_position = 0;
+        double distance = 0;
+        string textBox_string = "";
+        double x_capture = 0;
+        double y_capture = 0;
+
         VideoCapture capture;
+        //capture.FlipVertical.get=true;
+        
+
         public Form1()
         {
             InitializeComponent();
+            textBox_string = "x position = "+ x_position.ToString() + "\r\ny position = "+y_position.ToString() + "\r\ndistance = "+ distance.ToString();
+            textBox1.Text = textBox_string;            
             Run();
             
         }
@@ -38,6 +50,9 @@ namespace VW
             try
             {
                 capture = new VideoCapture();
+                x_capture = capture.Width;
+                y_capture = capture.Height;
+                capture.FlipHorizontal = true;
             }
             catch (Exception Ex)
             {
@@ -81,6 +96,9 @@ namespace VW
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             capture = new VideoCapture(comboBox1.SelectedIndex);
+            x_capture = capture.Width;
+            y_capture = capture.Height;
+            capture.FlipHorizontal = true;
         }
 
 
@@ -112,6 +130,16 @@ namespace VW
                 }
             }
             imageBox1.Image= new Image<Bgr, Byte>(bitmap);
+
+            if (rectangles != null && rectangles.Length != 0)
+            {
+                x_position = rectangles[0].X+ rectangles[0].Width/2-x_capture/2;
+                y_position =-(rectangles[0].Y+ rectangles[0].Height/2-y_capture/2);
+                distance = (100000-(rectangles[0].Width * rectangles[0].Height))/700;
+            }
+            textBox_string = "x position = " + x_position.ToString() + "\r\ny position = " + y_position.ToString() + "\r\ndistance = " + distance.ToString();
+            textBox1.Text = textBox_string;
+
         }
 
         private void OnTimerEvent(object sender, EventArgs e)
@@ -129,6 +157,16 @@ namespace VW
             timer.Enabled = true;
             timer.Tick += new System.EventHandler(OnTimerEvent);
             timer.Start();
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
