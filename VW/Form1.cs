@@ -21,7 +21,7 @@ namespace VW
     {
         Timer timer = new Timer
         {
-            Interval = 40
+            Interval = 100
         };
 
         double x_position = 0;
@@ -126,7 +126,18 @@ namespace VW
                 }
                 else
                 {
-                    position = 2 * X / 3 + position_history[0, 1] / 3;
+                    position = 3 * X / 7 + 4*position_history[0, 1] / 7;
+                }
+            }
+            else if (Math.Abs(X - position_history[0, 0]) < 4)
+            {
+                if (Math.Abs(X - position_history[0, 1]) <3)
+                {
+                    position = position_history[0, 0];
+                }
+                else
+                {
+                    position =  X / 2 + position_history[0, 1] / 2;
                 }
             }
             else
@@ -153,7 +164,18 @@ namespace VW
                 }
                 else
                 {
-                    position = 2 *Y / 3 + position_history[1, 1] / 3;
+                    position = 3 *Y / 7 + 4*position_history[1, 1] / 7;
+                }
+            }
+            else if (Math.Abs(Y - position_history[1, 0]) < 4)
+            {
+                if (Math.Abs(Y - position_history[1, 1]) < 3)
+                {
+                    position = position_history[1, 0];
+                }
+                else
+                {
+                    position = Y / 2 + position_history[1, 1] / 2;
                 }
             }
             else
@@ -165,7 +187,7 @@ namespace VW
         }
         double get_face_positionZ(double Z)
         {
-            if (historyY == false)
+            if (historyZ == false)
             {
                 position_history[2, 0] = Z;
                 position_history[2, 1] = Z;
@@ -180,11 +202,22 @@ namespace VW
                 }
                 else
                 {
-                    position = 2 * Z / 3 + position_history[2, 1] / 3;
+                    position = 2 * Z / 8 + 6* position_history[2, 1] / 8;
+                }
+            }
+            else if (Math.Abs(Z - position_history[2, 0]) < 6)
+            {
+                if (Math.Abs(Z - position_history[2, 1]) < 5)
+                {
+                    position = position_history[2, 0];
+                }
+                else
+                {
+                    position = 2*Z / 7 + 5*position_history[2, 1] / 7;
                 }
             }
             else
-                position = 0.2 * Z + 0.45 * position_history[2, 1] + 0.35 * position_history[2, 0];
+                position = 0.1 * Z + 0.475 * position_history[2, 1] + 0.425 * position_history[2, 0];
 
             position_history[2, 1] = position_history[1, 0];
             position_history[2, 0] = Z;
@@ -238,8 +271,23 @@ namespace VW
                 y_position =-(rectangles[big_rect[0]].Y+ rectangles[big_rect[0]].Height/2-y_capture/2);
                 y_position = get_face_positionY(y_position);
 
-                distance = (100000-(rectangles[big_rect[0]].Width * rectangles[big_rect[0]].Height))/700;
-                distance= get_face_positionZ(distance);
+                distance = (rectangles[big_rect[0]].Width * rectangles[big_rect[0]].Height);
+                //distance = (100000-(rectangles[big_rect[0]].Width * rectangles[big_rect[0]].Height))/700;
+                //distance=-(distance*distance*distance)*0.00000000002 + (distance*distance)*0.00000183211 - 0.04190535149 * distance + 300.16728044641;
+
+                if (distance < 65000)
+                    distance = -49.8204 * Math.Log(0.0000115855 * distance);
+                else
+                    distance = 2335 / 119 + (109 * distance) / 357000 - distance * distance / 446250000;
+
+
+
+                distance = get_face_positionZ(distance);
+                //double a= distance * distance * distance;
+                //double b = (distance * distance);
+                //double c =  distance;
+                //double d = -a * 0.00000000002 + b * 0.0000018321 - 0.04190535149 * c + 300.16728044641;
+
             }
             textBox_string = "x position = " + x_position.ToString() + "\r\ny position = " + y_position.ToString() + "\r\ndistance = " + distance.ToString();
             textBox1.Text = textBox_string;

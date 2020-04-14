@@ -80,7 +80,7 @@
             this.textBox1.Location = new System.Drawing.Point(599, 105);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(189, 70);
+            this.textBox1.Size = new System.Drawing.Size(280, 70);
             this.textBox1.TabIndex = 6;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 450);
+            this.ClientSize = new System.Drawing.Size(891, 450);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
